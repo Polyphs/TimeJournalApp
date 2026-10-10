@@ -1,0 +1,32 @@
+{
+  "name": "Quasar Node 22 Development Container",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "quasar-app",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Vue.volar",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "always"
+        },
+        "eslint.validate": [
+          "javascript",
+          "typescript",
+          "vue"
+        ]
+      }
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+  ],
+  "forwardPorts":,
+  "postStartCommand": "git config --global --add safe.directory /app"
+}
