@@ -4,7 +4,7 @@ A 30-minute time logger built from your notebook sketch: weekly grid (05:00–23
 
 ## Layout
 
-- `apps/app`: the Quasar + Capacitor app (`app.timejournal.app`)
+- `apps/app`: the Quasar + Capacitor app (`my.timejournal.app`)
 - `apps/web`: marketing site (`timejournal.app`), not scaffolded yet
 - `supabase/migrations`: additive SQL migrations
 - `docs`: standards, guides, architecture

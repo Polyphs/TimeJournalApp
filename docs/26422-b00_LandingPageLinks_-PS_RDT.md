@@ -16,7 +16,7 @@ The claude.ai links are private. The `.dc.html` files are the canvas sources and
 
 ## Page to app handoff
 
-- "Start your first week" and "Start tracking" open the app at `https://app.timejournal.app/#/`. The base is the `appUrl` tweak on each page.
+- "Start your first week" and "Start tracking" open the app at `https://my.timejournal.app/#/`. The base is the `appUrl` tweak on each page.
 - "Watch Use cases" (top of the home page) opens the v2 page. The target is the `useCasesUrl` tweak.
 - Use-case pages offer "Track these N in the app". The link is `<appUrl>?blocks=<base64url JSON array>`:
   - an array of up to 8 strings, each trimmed to 80 characters;

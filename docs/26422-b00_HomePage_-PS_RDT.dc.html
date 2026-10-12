@@ -287,7 +287,7 @@ a:hover{opacity:.85}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0F766E","options":["#0F766E","#1D4ED8","#B45309","#7C3AED"]},"appUrl":{"editor":"text","default":"https://app.timejournal.app/#/"},"useCasesUrl":{"editor":"text","default":"https://claude.ai/artifact/Q7VCBEsewJBjKUMkm23eGp"},"$preview":{"width":1440,"height":5200}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0F766E","options":["#0F766E","#1D4ED8","#B45309","#7C3AED"]},"appUrl":{"editor":"text","default":"https://my.timejournal.app/#/"},"useCasesUrl":{"editor":"text","default":"https://claude.ai/artifact/Q7VCBEsewJBjKUMkm23eGp"},"$preview":{"width":1440,"height":5200}}'>
 class Component extends DCLogic {
 renderVals() {
 const accent = this.props.accent ?? '#0F766E';
@@ -310,7 +310,7 @@ label,
 cells: p.split('').map((c) => ({ bg: col[c] }))
 }));
 const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00'].map((t) => ({ t }));
-const appUrl = this.props.appUrl ?? 'https://app.timejournal.app/#/';
+const appUrl = this.props.appUrl ?? 'https://my.timejournal.app/#/';
 const useCasesUrl = this.props.useCasesUrl ?? 'https://claude.ai/artifact/Q7VCBEsewJBjKUMkm23eGp';
 return { accent, days, hours, appUrl, useCasesUrl };
 }

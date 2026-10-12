@@ -244,7 +244,7 @@ input:focus{outline:3px solid #FACC15;outline-offset:1px}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"appUrl":{"editor":"text","default":"https://app.timejournal.app/#/"},"$preview":{"width":1440,"height":9600}}'>
+<script type="text/x-dc" data-dc-script data-props='{"appUrl":{"editor":"text","default":"https://my.timejournal.app/#/"},"$preview":{"width":1440,"height":9600}}'>
 class Component extends DCLogic {
 constructor(props) {
 super(props);
@@ -257,7 +257,7 @@ vals[sid][gi][ii] = v;
 this.setState({ vals });
 }
 renderVals() {
-const appUrl = this.props.appUrl ?? 'https://app.timejournal.app/#/';
+const appUrl = this.props.appUrl ?? 'https://my.timejournal.app/#/';
 const TEAL = '#0F766E';
 const BLUE = '#1D4ED8';
 const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00'].map((t) => ({ t }));
