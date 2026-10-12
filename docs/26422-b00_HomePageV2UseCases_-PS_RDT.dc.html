@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>timejournal: where did the time go</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0;background:#F6F7F4}
+a{text-underline-offset:3px}
+a:hover{opacity:.85}
+input::placeholder{color:#6B7780}
+input:focus{outline:3px solid #FACC15;outline-offset:1px}
+</style>
+</helmet>
+<div style="width: 100%; box-sizing: border-box; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #0F1B20; background: #F6F7F4; line-height: 1.6">
+
+<!-- NAV -->
+<div style="padding: 0 24px; box-sizing: border-box">
+<nav aria-label="Main" style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 20px 0">
+<a href="#top" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #0F1B20; min-height: 48px">
+<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="3" fill="#0F766E"/><rect x="14" y="1" width="11" height="11" rx="3" fill="#1D4ED8"/><rect x="1" y="14" width="11" height="11" rx="3" fill="#B45309"/><rect x="14" y="14" width="11" height="11" rx="3" fill="#94A3A8"/></svg>
+<span style="font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em">timejournal</span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="3">
+<a href="{{ n.href }}" style="display: inline-flex; align-items: center; min-height: 48px; color: #2B3A41; font-size: 15px; text-decoration: none">{{ n.label }}</a>
+</sc-for>
+<a href="{{ appUrl }}" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 10px; background: #0F1B20; color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none">Start tracking</a>
+</div>
+</nav>
+</div>
+
+<div id="top"></div>
+
+<!-- USE CASES: each one is a full A · E · P · R story -->
+<sc-for list="{{ stories }}" as="s" hint-placeholder-count="3">
+<div id="{{ s.id }}">
+
+<!-- A: AREA OF THE PROBLEM -->
+<div style="padding: 72px 24px 88px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #0F766E">{{ s.kicker }}</div>
+<h1 style="margin: 0; max-width: 980px; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(40px, 6.2vw, 84px); line-height: 1.02; letter-spacing: -0.035em">{{ s.headline }}</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 16px 48px; max-width: 980px">
+<p style="flex: 1 1 360px; margin: 0; font-size: 21px; line-height: 1.55; color: #2B3A41">{{ s.a1 }}</p>
+<p style="flex: 1 1 360px; margin: 0; font-size: 21px; line-height: 1.55; color: #2B3A41">{{ s.a2 }}</p>
+</div>
+</div>
+</div>
+
+<!-- E: EMPATHY -->
+<div style="background: #0F1B20; padding: 88px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 72px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: clamp(32px, 4.4vw, 56px); line-height: 1.08; letter-spacing: -0.025em; color: #F6F7F4">{{ s.eHead }}</h2>
+</div>
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: 19px; line-height: 1.6; color: #C9D4D8">{{ s.e1 }}</p>
+<p style="margin: 0; font-size: 19px; line-height: 1.6; color: #C9D4D8">{{ s.e2 }}</p>
+</div>
+</div>
+</div>
+
+<!-- P: PROPOSED IDEA (interactive) -->
+<div style="padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px 64px; align-items: flex-start">
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #0F766E">Try this now</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(34px, 4.6vw, 60px); line-height: 1.04; letter-spacing: -0.03em">{{ s.pHead }}</h2>
+<p style="margin: 0; font-size: 19px; color: #2B3A41">{{ s.pBody }}</p>
+<p style="margin: 0; font-size: 15px; color: #4B5A62">Nothing you type is sent to a server. If you choose to track it, it travels to the app inside the link, on your device only.</p>
+</div>
+
+<div style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px">
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #4B5A62">{{ s.listLabel }}</span>
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; color: #0F766E">{{ s.countLabel }}</span>
+</div>
+<sc-for list="{{ s.groups }}" as="g" hint-placeholder-count="1">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-if value="{{ g.hasTitle }}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: {{ g.color }}; padding-top: 8px">{{ g.title }}</div>
+</sc-if>
+<sc-for list="{{ g.inputs }}" as="item" hint-placeholder-count="4">
+<label style="display: flex; align-items: center; gap: 12px">
+<span style="flex: 0 0 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 15px; background: {{ item.badgeBg }}; color: {{ item.badgeColor }}">{{ item.n }}</span>
+<input type="text" maxlength="80" aria-label="{{ item.aria }}" placeholder="{{ item.ph }}" onChange="{{ item.onType }}" style="flex: 1 1 0; min-width: 0; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #B8C4C0; border-radius: 10px; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 17px; color: #0F1B20; background: #FFFFFF">
+</label>
+</sc-for>
+</div>
+</sc-for>
+</div>
+
+</div>
+</div>
+
+<!-- R: REVEAL THE BLOCKS -->
+<div style="background: #E8EEEB; padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+
+<div style="max-width: 820px; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #0F766E">Now look at the blocks</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(32px, 4.4vw, 54px); line-height: 1.06; letter-spacing: -0.03em">{{ s.rHead }}</h2>
+<p style="margin: 0; font-size: 19px; color: #2B3A41">{{ s.revealMsg }}</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 40px 56px; align-items: flex-start">
+
+<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #D0DAD6; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #4B5A62">
+<span>A sample week in timejournal</span>
+<span>Illustrative placement</span>
+</div>
+<div role="img" aria-label="{{ s.gridAria }}" style="display: flex; gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 4px; width: 40px; flex: 0 0 40px">
+<div style="height: 18px"></div>
+<sc-for list="{{ hours }}" as="h" hint-placeholder-count="6">
+<div style="height: 68px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #4B5A62">{{ h.t }}</div>
+</sc-for>
+</div>
+<sc-for list="{{ s.days }}" as="day" hint-placeholder-count="5">
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="height: 18px; text-align: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 18px; color: #2B3A41">{{ day.label }}</div>
+<sc-for list="{{ day.cells }}" as="cell" hint-placeholder-count="12">
+<div style="height: 30px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 13px; background: {{ cell.bg }}; color: {{ cell.color }}; border: {{ cell.border }}; box-sizing: border-box">{{ cell.label }}</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: #2B3A41">
+<sc-for list="{{ s.legend }}" as="l" hint-placeholder-count="3">
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 4px; background: {{ l.bg }}; border: {{ l.border }}; box-sizing: border-box"></span>{{ l.label }}</span>
+</sc-for>
+</div>
+</div>
+
+<div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<sc-for list="{{ s.cards }}" as="c" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border: 1px solid #D0DAD6; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 22px; font-weight: 700">{{ c.h }}</h3>
+<p style="margin: 0; font-size: 16px; color: #2B3A41">{{ c.p }}</p>
+</div>
+</sc-for>
+
+<sc-if value="{{ s.cta.show }}" hint-placeholder-val="{{ false }}">
+<div style="background: #0F766E; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; box-sizing: border-box">
+<p style="margin: 0; font-size: 16px; color: #FFFFFF">{{ s.cta.note }}</p>
+<a href="{{ s.cta.href }}" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 12px; background: #FFFFFF; color: #0B4F4A; font-weight: 600; font-size: 17px; text-decoration: none">{{ s.cta.label }}</a>
+</div>
+</sc-if>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+</sc-for>
+
+<!-- MORE IDEAS: prebooking and the light reminder -->
+<div id="more" style="padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="max-width: 820px; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #0F766E">Two small habits that keep it light</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(32px, 4.4vw, 54px); line-height: 1.06; letter-spacing: -0.03em">Blocks tell you what matters. These two make it happen.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+
+<div style="flex: 1 1 420px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #0F766E">Prebooking</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 28px; font-weight: 700; line-height: 1.15">Put a block on next week before the week fills up.</h3>
+<p style="margin: 0; font-size: 17px; color: #2B3A41">Once you can see your gaps, pick an empty slot in the future and give it a block. It shows as a dashed outline, and you get a reminder when it starts.</p>
+<div aria-hidden="true" style="display: flex; gap: 4px">
+<span style="width: 44px; height: 30px; border-radius: 5px; background: #D3DCD8"></span>
+<span style="width: 44px; height: 30px; border-radius: 5px; border: 1.5px dashed #0F766E; box-sizing: border-box"></span>
+<span style="width: 44px; height: 30px; border-radius: 5px; border: 1.5px dashed #0F766E; box-sizing: border-box"></span>
+<span style="width: 44px; height: 30px; border-radius: 5px; background: #D3DCD8"></span>
+</div>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #0F766E">A reminder, kept to three taps</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 28px; font-weight: 700; line-height: 1.15">Every 30 minutes: "I remember using the time for…"</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: #0F766E; color: #FFFFFF; font-weight: 600; font-size: 16px">My chosen work</span>
+<span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: #B45309; color: #FFFFFF; font-weight: 600; font-size: 16px">Productive for me</span>
+<span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: #475569; color: #FFFFFF; font-weight: 600; font-size: 16px">Passing time</span>
+<span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1.5px dashed #475569; color: #2B3A41; font-weight: 500; font-size: 16px">Not logging</span>
+</div>
+<p style="margin: 0; font-size: 17px; color: #2B3A41">Three taps, or skip. A skipped prompt becomes a hatched block, and that gap is information too. No guilt, no streaks.</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- I: INVITE -->
+<div id="start" style="background: #0F766E; padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 72px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(36px, 5vw, 68px); line-height: 1.03; letter-spacing: -0.035em; color: #FFFFFF">Track one week. See where your time really goes.</h2>
+<p style="margin: 0; font-size: 20px; color: #FFFFFF; max-width: 600px">timejournal is free until you choose to pay. No walls, no ads. Pay only when you start finding value. Try it for a week, read your Friday review, and tell me what you notice.</p>
+<p style="margin: 0; font-size: 16px; color: #FFFFFF; max-width: 600px">No account needed to begin. You can sign up later to save and sync your progress.</p>
+<p style="margin: 0; font-size: 16px; color: #FFFFFF; max-width: 600px">Your data is yours. Not sold. Not seen by us. Not used to train AI. You choose who you share with.</p>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
+<a href="{{ appUrl }}" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 30px; border-radius: 12px; background: #FFFFFF; color: #0B4F4A; font-weight: 600; font-size: 18px; text-decoration: none">Start your first week</a>
+<a href="#start" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 12px; border: 1.5px solid #FFFFFF; color: #FFFFFF; font-weight: 500; font-size: 17px; text-decoration: none">Follow the blog</a>
+<a href="#start" style="display: inline-flex; align-items: center; min-height: 48px; color: #FFFFFF; font-weight: 500; font-size: 17px">Pay when it helps</a>
+</div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<div style="background: #0A1317; padding: 64px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px 64px">
+<div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="3" fill="#2DD4BF"/><rect x="14" y="1" width="11" height="11" rx="3" fill="#60A5FA"/><rect x="1" y="14" width="11" height="11" rx="3" fill="#F59E0B"/><rect x="14" y="14" width="11" height="11" rx="3" fill="#52666E"/></svg>
+<span style="font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 20px; color: #F6F7F4">timejournal</span>
+</div>
+<p style="margin: 0; font-size: 16px; color: #C9D4D8">Track first. Then tidy.</p>
+</div>
+<div style="flex: 2 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; color: #5EEAD4">STANDING ON SHOULDERS</div>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #F6F7F4; max-width: 820px">Time logs aren't new, and neither is the lesson behind them. Different authors, different books, one thread: review. Look back at where your time went, then decide what comes next. Without that review, effort becomes an endless loop with no goal. timejournal turns that first step into an app.</p>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; color: #C9D4D8">
+<li>Peter Drucker, <em>The Effective Executive</em> (1967)</li>
+<li>Stephen R. Covey, A. Roger Merrill and Rebecca R. Merrill, <em>First Things First</em> (1994)</li>
+<li>David Allen, <em>Getting Things Done</em> (2001)</li>
+<li>Laura Vanderkam, <em>168 Hours</em> (2010)</li>
+<li>Marshall Goldsmith and Mark Reiter, <em>Triggers</em> (2015)</li>
+</ul>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #9FB1B7">Named for credit and context. These authors are not affiliated with or endorsing timejournal.</p>
+</div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"appUrl":{"editor":"text","default":"https://app.timejournal.app/#/"},"$preview":{"width":1440,"height":9600}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { vals: { s1: [['', '', '', '', '', '', '', '']], s2: [['', '', '']], s3: [['', '', '', ''], ['', '', '', '']] } };
+}
+setVal(sid, gi, ii, v) {
+const vals = {};
+Object.keys(this.state.vals).forEach((k) => { vals[k] = this.state.vals[k].map((g) => g.slice()); });
+vals[sid][gi][ii] = v;
+this.setState({ vals });
+}
+renderVals() {
+const appUrl = this.props.appUrl ?? 'https://app.timejournal.app/#/';
+const TEAL = '#0F766E';
+const BLUE = '#1D4ED8';
+const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00'].map((t) => ({ t }));
+const enc = (list) => {
+const json = JSON.stringify(list);
+return btoa(unescape(encodeURIComponent(json))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+};
+
+const defs = [
+{
+id: 's1',
+short: 'Drowning in tasks',
+kicker: 'Use case 1 · Drowning in tasks',
+headline: "I'm busy all day. So why is there still so much left?",
+a1: 'Drowning in things to do. A lot gets done, and more is still waiting. And the things that matter most never seem to find a slot.',
+a2: "You don't need another to-do list. You need to see where the time actually goes, so you can find the time you thought you didn't have.",
+eHead: 'Ah, that familiar feeling of missing out, even though a lot got done.',
+e1: "You ticked things off, answered everything, kept going. And at the end of the day it still feels like the real work didn't happen.",
+e2: "That isn't a discipline problem. It usually means you've been planning without a picture of your week. A good coach starts somewhere else: they ask you to track your time first.",
+pHead: "In the next 3 minutes, could you list 8 things you'd like to finish, or see through?",
+pBody: "Goals, priorities, tasks, or something important you need to remember to complete. Don't sort them and don't polish them. Just write.",
+listLabel: 'Your 8',
+groups: [{ title: '', color: TEAL, start: 1, count: 8, ph: ['Finish the proposal', 'Call the dentist', 'Learn something new', 'Plan next month', 'Exercise three times', 'Reply to that one email', 'Read for 30 minutes', 'Something just for me'], noun: 'Thing', of: 8 }],
+slots: [[0, 2], [1, 5], [2, 1], [2, 8], [3, 4], [4, 0], [4, 6], [1, 10]],
+rHead: 'Your week is made of 30-minute blocks. Where do your 8 fit?',
+msg: (c) => c === 0 ? 'Write your 8 above and watch them land in the grid. Each one is a block you want to protect.' : c < 8 ? c + ' of 8 so far. Keep going. The empty dashed blocks are waiting for the rest.' : 'All 8 are in. The question now is not whether you want to do them. It is whether your week has room for them, and where the hours go instead.',
+gridAria: 'Sample weekly grid of 30-minute blocks, Monday to Friday. Eight highlighted numbered blocks stand for the eight things you listed.',
+legend: [['One of your 8', TEAL, 'solid'], ['Not written yet', '', 'dashed'], ['Everything else', '#D3DCD8', 'solid']],
+cards: [
+{ h: 'A block is anything that matters', p: 'A goal, a priority, a task, or something important you need to remember to complete. You decide what it stands for.' },
+{ h: 'The grid shows what really happened', p: 'Every 30 minutes, timejournal asks what you were doing. Over a week you see which blocks went to your 8, and which went somewhere else.' },
+{ h: 'Then the Friday review', p: "You get a time-commitment summary, and you move or pre-block next week's focus blocks. The review is where tracking turns into a decision." }
+],
+ctaNote: 'Want to see these 8 as your blocks? They appear at the top of the app, ready to track.',
+ctaLabel: 'Track these 8 in the app',
+names: (g) => g[0]
+},
+{
+id: 's2',
+short: 'The backlog',
+kicker: 'Use case 2 · The endless backlog',
+headline: 'I tick boxes, yet a long backlog is killing me.',
+a1: 'Every day you finish a handful of things. And every day the list behind them gets a little longer, a little heavier.',
+a2: "The backlog doesn't need more effort. It needs a smaller question: which few things would you actually protect time for this week?",
+eHead: 'Ticking feels like progress. The backlog says otherwise.',
+e1: "You clear the easy ones because they are easy. The ones that matter keep sliding to tomorrow, and tomorrow looks exactly like today.",
+e2: "A longer list never made a week longer. What helps is choosing a few items and giving each one a place on the calendar before the week starts.",
+pHead: 'Which 3 items from your backlog weigh on you most?',
+pBody: "Not the whole list. Just the three you would be relieved to finish. Don't rank them and don't polish them. Just write.",
+listLabel: 'Your 3',
+groups: [{ title: '', color: TEAL, start: 1, count: 3, ph: ['The report I keep postponing', 'That form that never gets filled', 'The idea I keep meaning to start'], noun: 'Backlog item', of: 3 }],
+slots: [[0, 2], [2, 5], [4, 1]],
+rHead: 'Three items, three prebooked blocks. Now the week has room for them.',
+msg: (c) => c === 0 ? 'Write your 3 above and watch them get a place in the week. This is prebooking: a block waiting for you before the week fills up.' : c < 3 ? c + ' of 3 so far. The dashed blocks are held for whatever you add next.' : 'All 3 are booked. The backlog did not shrink, but three of its items now have a time, which is more than a longer list ever gave them.',
+gridAria: 'Sample weekly grid of 30-minute blocks, Monday to Friday. Three highlighted numbered blocks stand for the three backlog items you chose.',
+legend: [['One of your 3, prebooked', TEAL, 'solid'], ['Held for you', '', 'dashed'], ['Everything else', '#D3DCD8', 'solid']],
+cards: [
+{ h: 'Prebooking turns a wish into a plan', p: 'Pick an empty slot in the future and give it a block. It shows as a dashed outline, and you get a reminder when it starts.' },
+{ h: 'Three is a plan. Three hundred is a worry', p: 'The backlog stays where it is. Your week simply starts from the few items you chose, not from the whole pile.' },
+{ h: 'Friday shows what happened to them', p: 'Did the prebooked blocks hold? The review shows where the hours went instead, so next week gets a smarter booking.' }
+],
+ctaNote: 'Want these 3 as your blocks? They appear at the top of the app, ready to prebook and track.',
+ctaLabel: 'Track these 3 in the app',
+names: (g) => g[0]
+},
+{
+id: 's3',
+short: 'Work and family',
+kicker: 'Use case 3 · Work and family',
+headline: "Work says I don't give it enough. So does my family.",
+a1: "Work-life balance sounds simple. In practice, work has its list, home has its own, and each one says the same thing: you don't give me enough time.",
+a2: "Somebody invented the idea of balance. Nobody gave us one view of both sides, so we can't even see whether it is balanced.",
+eHead: 'Both sides matter. Neither one ever sees the other.',
+e1: "You carry two sets of commitments in your head. At work you think of home, at home you think of work, and both feel unfinished.",
+e2: "That isn't failing at balance. You were never shown the whole week in one place. A good coach starts by putting both on the same page.",
+pHead: 'What are 4 things work expects, and 4 things your family does?',
+pBody: "Real commitments, on each side. Meetings, a deadline, a school run, a call to your parents. Don't sort them and don't polish them. Just write.",
+listLabel: 'Both sides',
+groups: [
+{ title: 'Work', color: TEAL, start: 1, count: 4, ph: ['Finish the quarterly review', 'Weekly team sync', 'Reply to the client', 'Learn the new tool'], noun: 'Work item', of: 4, prefix: 'Work: ' },
+{ title: 'Family', color: BLUE, start: 5, count: 4, ph: ['Dinner together', 'Help with homework', 'Call my parents', 'Weekend plan'], noun: 'Family item', of: 4, prefix: 'Family: ' }
+],
+slots: [[0, 1], [1, 4], [2, 2], [3, 6], [0, 9], [1, 10], [3, 9], [4, 8]],
+rHead: 'One week. One grid. Work and family, side by side.',
+msg: (c) => c === 0 ? 'Write both sides above and watch them land in the same week. Work in teal, family in blue.' : c < 8 ? c + ' of 8 so far. Keep going. The dashed blocks are waiting for both sides.' : 'Both sides are on one grid. Now you can see how they share the week, and whether the time you give each matches what you mean to give.',
+gridAria: 'Sample weekly grid of 30-minute blocks, Monday to Friday. Four teal blocks stand for work items and four blue blocks stand for family items.',
+legend: [['Work', TEAL, 'solid'], ['Family', BLUE, 'solid'], ['Not written yet', '', 'dashed'], ['Everything else', '#D3DCD8', 'solid']],
+cards: [
+{ h: 'Balance needs one view', p: 'Work and family are both commitments. When they share a grid, you can see how the week is really divided.' },
+{ h: 'Not a verdict, a picture', p: "The grid doesn't say you should give more to one side. It shows what you gave, so you decide what to change." },
+{ h: 'Plan both in the same Friday review', p: 'You see work and family hours together, then move or prebook blocks for either side next week.' }
+],
+ctaNote: 'Want both sides as your blocks? Work and Family items appear at the top of the app.',
+ctaLabel: 'Track both sides in the app',
+names: (g) => g[0].map((t) => 'Work: ' + t).concat(g[1].map((t) => 'Family: ' + t))
+}
+];
+
+const stories = defs.map((d) => {
+const vals = this.state.vals[d.id];
+let count = 0;
+const flags = [];
+const groups = d.groups.map((g, gi) => ({
+hasTitle: !!g.title,
+title: g.title,
+color: g.color,
+inputs: Array.from({ length: g.count }, (_, ii) => {
+const filled = (vals[gi][ii] || '').trim().length > 0;
+flags.push(filled);
+if (filled) count += 1;
+return {
+n: g.start + ii,
+aria: g.noun + ' ' + (ii + 1) + ' of ' + g.of,
+ph: g.ph[ii],
+badgeBg: filled ? g.color : '#E3EAE7',
+badgeColor: filled ? '#FFFFFF' : '#2B3A41',
+onType: (e) => this.setVal(d.id, gi, ii, (e && e.target && e.target.value) || '')
+};
+})
+}));
+const total = flags.length;
+const slotColor = d.id === 's3' ? [TEAL, TEAL, TEAL, TEAL, BLUE, BLUE, BLUE, BLUE] : d.slots.map(() => TEAL);
+const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((label, di) => ({
+label,
+cells: Array.from({ length: 12 }, (_, r) => {
+const s = d.slots.findIndex((p) => p[0] === di && p[1] === r);
+if (s === -1) return { bg: '#D3DCD8', color: '#D3DCD8', border: '1.5px solid #D3DCD8', label: '' };
+const c = slotColor[s];
+if (flags[s]) return { bg: c, color: '#FFFFFF', border: '1.5px solid ' + c, label: String(s + 1) };
+return { bg: '#FFFFFF', color: c, border: '1.5px dashed ' + c, label: String(s + 1) };
+})
+}));
+const legend = d.legend.map(([label, bg, kind]) => ({
+label,
+bg: kind === 'dashed' ? '#FFFFFF' : bg,
+border: kind === 'dashed' ? '1.5px dashed ' + TEAL : '1.5px solid ' + bg
+}));
+const list = d.names(vals.map((g) => g.map((t) => t.trim()).filter(Boolean)));
+return {
+id: d.id,
+kicker: d.kicker,
+headline: d.headline,
+a1: d.a1,
+a2: d.a2,
+eHead: d.eHead,
+e1: d.e1,
+e2: d.e2,
+pHead: d.pHead,
+pBody: d.pBody,
+listLabel: d.listLabel,
+countLabel: count + ' of ' + total,
+groups,
+rHead: d.rHead,
+revealMsg: d.msg(count),
+gridAria: d.gridAria,
+days,
+legend,
+cards: d.cards,
+cta: { show: list.length > 0, note: d.ctaNote, label: d.ctaLabel, href: appUrl + '?blocks=' + enc(list.slice(0, 8)) }
+};
+});
+const nav = defs.map((d) => ({ href: '#' + d.id, label: d.short }));
+return { appUrl, hours, stories, nav };
+}
+}
+</script>
+</body>
+</html>
