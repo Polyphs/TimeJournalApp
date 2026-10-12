@@ -2,7 +2,7 @@
   "name": "Quasar Node 22 Development Container",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "quasar-app",
-  "workspaceFolder": "/app",
+  "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -27,6 +27,6 @@
   "mounts": [
     "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
   ],
-  "forwardPorts":,
-  "postStartCommand": "git config --global --add safe.directory /app"
+  "forwardPorts": [9000, 8080],
+  "postStartCommand": "git config --global --add safe.directory /workspace"
 }

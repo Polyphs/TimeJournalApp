@@ -5,14 +5,13 @@ services:
     image: node:20-alpine
     container_name: quasar_dev_container
     volumes:
-      - .:/app
-    working_dir: /app
+      - .:/workspace
+    working_dir: /workspace/apps/app
     ports:
       - "9000:9000"
       - "8080:8080"
     command: >
-      sh -c "rm -rf node_modules package-lock.json && 
-             npm install && 
+      sh -c "(npm ci || npm install) &&
              npx quasar dev --host 0.0.0.0"
     stdin_open: true
     tty: true
