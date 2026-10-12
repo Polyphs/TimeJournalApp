@@ -10,6 +10,8 @@
     </q-header>
 
     <q-page-container>
+      <SignupNudge />
+      <BlockImport />
       <router-view />
     </q-page-container>
 
@@ -27,5 +29,7 @@
 
 <script setup>
 import { useTempoStore } from 'stores/tempo'
+import SignupNudge from 'components/SignupNudge.vue'
+import BlockImport from 'components/BlockImport.vue'
 const store = useTempoStore()
 </script>

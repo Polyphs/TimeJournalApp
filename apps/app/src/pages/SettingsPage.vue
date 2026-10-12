@@ -23,7 +23,7 @@
 
     <q-separator class="q-my-lg" />
 
-    <div class="text-subtitle2 text-weight-bold q-mb-sm">Account and sync</div>
+    <div id="account" class="text-subtitle2 text-weight-bold q-mb-sm">Account and sync</div>
     <div v-if="!supabase" class="text-body2 text-grey-8">
       Sync is off because no Supabase credentials were set at build time. Your data stays on this device.
     </div>
@@ -44,13 +44,18 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useTempoStore } from 'stores/tempo'
 import { supabase } from 'src/services/supabase'
 import { isNative, reschedule, requestPermission } from 'src/services/notify'
 
 const $q = useQuasar()
+const route = useRoute()
+onMounted(() => {
+  if (route.query.signup) document.getElementById('account')?.scrollIntoView({ behavior: 'smooth' })
+})
 const store = useTempoStore()
 const s = computed(() => store.settings)
 const email = ref('')
