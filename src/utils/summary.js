@@ -17,11 +17,23 @@ export function summarize(store, ws, now = new Date()) {
       if (s.kind === 'passing') { day.passing += 0.5; passing += 0.5; continue }
       day.productive += 0.5; productive += 0.5
       if (s.kind === 'goal') goal += 0.5
-      if (s.kind === 'focus' && s.blockId) perBlock[s.blockId] = (perBlock[s.blockId] || 0) + 0.5
+      if (s.kind === 'focus' && s.blockId) {
+        const title = store.slotTitle(s)
+        const k = `${s.blockId}|${title}`
+        perBlock[k] = perBlock[k] || { blockId: s.blockId, title, hours: 0 }
+        perBlock[k].hours += 0.5
+      }
     }
     perDay.push(day)
   }
-  const blocks = store.blocks.map((b) => ({ ...b, hours: perBlock[b.id] || 0 }))
+  // One row per (block, title): a renamed block shows its old and new titles separately.
+  const used = Object.values(perBlock)
+  const blocks = []
+  store.blocks.forEach((b) => {
+    const rows = used.filter((u) => u.blockId === b.id)
+    if (!rows.some((r) => r.title === b.name)) rows.push({ blockId: b.id, title: b.name, hours: 0 })
+    rows.forEach((r) => blocks.push({ ...b, id: `${b.id}|${r.title}`, name: r.title, hours: r.hours, past: r.title !== b.name }))
+  })
   return { productive, passing, unlogged, goal, blocks, perDay }
 }
 

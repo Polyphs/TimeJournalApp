@@ -26,6 +26,7 @@
         <div
           v-for="d in days" :key="d.date + idx"
           class="cell" :class="cellClass(d.date, idx - 1)" :style="cellStyle(d.date, idx - 1)"
+          :title="cellTitle(d.date, idx - 1)"
           @click="open(d.date, idx - 1)"
         >{{ cellText(d.date, idx - 1) }}</div>
       </template>
@@ -90,6 +91,10 @@ function cellText(date, idx) {
   const p = store.planned(date, idx)
   if (s) return s.kind === 'focus' ? store.blockById(s.blockId)?.order : s.kind === 'goal' ? 'G' : s.kind === 'productive' ? '✓' : '·'
   return p ? store.blockById(p.blockId)?.order : ''
+}
+function cellTitle(date, idx) {
+  const s = store.slot(date, idx)
+  return s?.kind === 'focus' ? store.slotTitle(s) : ''
 }
 function open(date, idx) {
   Object.assign(target, { date, idx, mode: isFuture(date, idx) ? 'plan' : 'log' })

@@ -13,13 +13,14 @@ export const DEFAULT_SETTINGS = {
 
 const rid = (kind, key) => `${kind}|${key}`
 const nowIso = () => new Date().toISOString()
+const EPOCH = '1970-01-01T00:00:00.000Z'
 
 function seedBlocks() {
   const out = {}
   BLOCK_COLORS.forEach((color, i) => {
     out[rid('block', `b${i + 1}`)] = {
       kind: 'block', key: `b${i + 1}`, updatedAt: '1970-01-01T00:00:00.000Z', deleted: false, dirty: false,
-      data: { name: `Block ${i + 1}`, color, order: i + 1 }
+      data: { name: `Block ${i + 1}`, color, order: i + 1, history: [{ name: `Block ${i + 1}`, from: EPOCH }] }
     }
   })
   return out
@@ -50,6 +51,35 @@ export const useTempoStore = defineStore('tempo', {
         .filter((r) => r.kind === 'block' && !r.deleted)
         .map((r) => ({ id: r.key, ...r.data }))
         .sort((a, b) => a.order - b.order),
+    /** Title a block carried at a given moment (ISO string), from its rename history. */
+    titleAt() {
+      return (blockId, atIso) => {
+        const r = this.records[rid('block', blockId)]
+        if (!r) return ''
+        const hist = r.data.history?.length ? r.data.history : [{ name: r.data.name, from: EPOCH }]
+        let title = hist[0].name
+        for (const h of hist) if (h.from <= atIso) title = h.name
+        return title
+      }
+    },
+    /** Title to show for a logged slot: the snapshot taken when logged, else resolved from history. */
+    slotTitle() {
+      return (slot) => {
+        if (!slot || !slot.blockId) return ''
+        if (slot.title) return slot.title
+        const at = slot.date ? `${slot.date}T23:59:59.999Z` : nowIso()
+        return this.titleAt(slot.blockId, at) || this.blockById(slot.blockId)?.name || ''
+      }
+    },
+    /** Past titles of a block (excluding the current one), oldest first, de-duplicated. */
+    pastTitles() {
+      return (blockId) => {
+        const r = this.records[rid('block', blockId)]
+        if (!r) return []
+        const cur = r.data.name
+        return [...new Set((r.data.history || []).map((h) => h.name))].filter((n) => n !== cur && !/^Block \d+$/.test(n))
+      }
+    },
     blockById() {
       const m = Object.fromEntries(this.blocks.map((b) => [b.id, b]))
       return (id) => m[id]
@@ -98,7 +128,12 @@ export const useTempoStore = defineStore('tempo', {
     },
 
     setSlot(date, idx, { kind, blockId = null, note = '' }) {
-      this.put('slot', `${date}_${idx}`, { date, idx, kind, blockId, note: note.trim() })
+      // Snapshot the block title active now, so later renames never rewrite this log.
+      const prev = this.slot(date, idx)
+      const title = kind === 'focus' && blockId
+        ? (prev && prev.blockId === blockId && prev.title ? prev.title : this.records[rid('block', blockId)]?.data.name || '')
+        : ''
+      this.put('slot', `${date}_${idx}`, { date, idx, kind, blockId, title, note: note.trim() })
     },
     clearSlot(date, idx) { this.remove('slot', `${date}_${idx}`) },
     setPlanned(date, idx, blockId) { this.put('plan', `${date}_${idx}`, { date, idx, blockId }) },
@@ -106,7 +141,16 @@ export const useTempoStore = defineStore('tempo', {
 
     saveBlock(id, patch) {
       const cur = this.records[rid('block', id)]?.data || {}
-      this.put('block', id, { ...cur, ...patch })
+      const next = { ...cur, ...patch }
+      if (typeof patch.name === 'string') {
+        const name = patch.name.trim()
+        if (!name || name === cur.name) { next.name = cur.name } // ignore empty / unchanged titles
+        else {
+          next.name = name
+          next.history = [...(cur.history?.length ? cur.history : [{ name: cur.name, from: EPOCH }]), { name, from: nowIso() }]
+        }
+      }
+      this.put('block', id, next)
     },
     moveBlock(id, dir) {
       const list = this.blocks
