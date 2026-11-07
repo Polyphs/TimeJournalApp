@@ -1,0 +1,14 @@
+# Marketing site (apps/web) and app (apps/app) are separate Netlify sites; this file belongs to the app site.
+[build]
+  base = "apps/app"
+  command = "npm run build"
+  publish = "dist/spa"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Needed once the router moves from hash mode to history mode.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

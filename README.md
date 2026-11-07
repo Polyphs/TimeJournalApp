@@ -2,8 +2,18 @@
 
 A 30-minute time logger built from your notebook sketch: weekly grid (05:00–23:00), 8 focus blocks, a prompt every 30 minutes, a Friday summary, and pre-blocking of focus time. Vue 3 + Quasar + Pinia, Capacitor for Android/iOS, Supabase for auth and sync.
 
+## Layout
+
+- `apps/app`: the Quasar + Capacitor app (`my.timejournal.app`)
+- `apps/web`: marketing site (`timejournal.app`), not scaffolded yet
+- `supabase/migrations`: additive SQL migrations
+- `docs`: standards, guides, architecture
+
 ## Run
 
+From the repo root, `docker compose up` runs the dev server. Without Docker:
+
+    cd apps/app
     npm install
     cp .env.example .env      # optional: add Supabase URL + anon key
     npx quasar dev            # web
@@ -12,7 +22,7 @@ Without `.env` the app runs fully offline on the device.
 
 ## Supabase
 
-1. Create a project. Run `supabase/schema.sql` in the SQL editor.
+1. Create a project. Run the files in `supabase/migrations/` in order in the SQL editor.
 2. Put the project URL and anon key in `.env`.
 3. Auth > Providers > Email. Turn off "Confirm email" if you want instant sign-up.
 
@@ -20,6 +30,7 @@ Sync is offline-first: writes go to local storage immediately, dirty records are
 
 ## Android / iOS
 
+    cd apps/app
     npx quasar mode add capacitor
     cd src-capacitor && npm i @capacitor/local-notifications && cd ..
     npx quasar dev -m capacitor -T android      # or ios
