@@ -23,6 +23,10 @@
 
     <q-separator class="q-my-lg" />
 
+    <StationeryManager />
+
+    <q-separator class="q-my-lg" />
+
     <div id="account" class="text-subtitle2 text-weight-bold q-mb-sm">Account and sync</div>
     <div v-if="!supabase" class="text-body2 text-grey-8">
       Sync is off because no Supabase credentials were set at build time. Your data stays on this device.
@@ -50,6 +54,7 @@ import { useQuasar } from 'quasar'
 import { useTempoStore } from 'stores/tempo'
 import { supabase } from 'src/services/supabase'
 import { isNative, reschedule, requestPermission } from 'src/services/notify'
+import StationeryManager from 'components/StationeryManager.vue'
 
 const $q = useQuasar()
 const route = useRoute()

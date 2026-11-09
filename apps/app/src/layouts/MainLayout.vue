@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf">
     <q-header class="bg-white text-primary" style="border-bottom: 2px solid var(--ink)">
       <q-toolbar style="min-height: 50px">
-        <q-toolbar-title class="text-weight-bold" style="letter-spacing: -0.01em">Tempo30</q-toolbar-title>
+        <q-toolbar-title class="text-weight-bold" style="letter-spacing: -0.01em; white-space: normal; line-height: 1.15; font-size: 15px">Time Journal - Your guide to mindful time Journaling</q-toolbar-title>
         <q-spinner v-if="store.syncing" size="18px" color="primary" class="q-mr-sm" />
         <q-icon v-else-if="store.syncError" name="cloud_off" color="negative" size="20px" class="q-mr-sm" />
         <q-icon v-else-if="store.user" name="cloud_done" color="positive" size="20px" class="q-mr-sm" />

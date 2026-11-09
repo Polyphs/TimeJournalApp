@@ -1,0 +1,24 @@
+# Marketing site (timejournal.app). Static files only, no build step.
+# Netlify site settings: base directory apps/web, build command empty, publish directory public.
+# Netlify Forms must be enabled for this site (Project configuration > Forms) so the "subscribe" form is detected.
+[build]
+  publish = "public"
+
+[[redirects]]
+  from = "/signin"
+  to = "https://my.timejournal.app/#/settings"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/signup"
+  to = "https://my.timejournal.app/#/settings"
+  status = 302
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"

@@ -1,7 +1,8 @@
 {
   "name": "tempo30",
   "version": "0.1.0",
-  "description": "30-minute time logger with focus blocks, weekly summary and sync",
+  "productName": "Time Journal - Your guide to mindful time Journaling",
+  "description": "Time Journal: a 30-minute time journal with focus blocks, rich journal notes, stationery, weekly summary and sync",
   "private": true,
   "type": "module",
   "scripts": {
