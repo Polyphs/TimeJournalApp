@@ -4,6 +4,10 @@
       <q-btn flat round dense icon="chevron_left" @click="shift(-1)" />
       <div class="text-subtitle2 text-weight-bold">{{ rangeLabel }}</div>
       <div>
+        <q-btn
+          flat dense no-caps icon="checklist" label="Select" :color="selectMode ? 'secondary' : 'primary'"
+          :aria-pressed="selectMode" title="Select several slots to journal together" @click="toggleSelectMode"
+        />
         <q-btn flat dense no-caps label="Today" @click="ws = weekStart(new Date())" />
         <q-btn flat round dense icon="chevron_right" @click="shift(1)" />
       </div>
@@ -27,38 +31,54 @@
           v-for="d in days" :key="d.date + idx"
           class="cell" :class="cellClass(d.date, idx - 1)" :style="cellStyle(d.date, idx - 1)"
           :title="cellTitle(d.date, idx - 1)"
-          @click="open(d.date, idx - 1)"
+          @click="onCell($event, d.date, idx - 1)"
+          @pointerdown="onDown($event, d.date, idx - 1)"
+          @pointerenter="onEnter(d.date, idx - 1)"
         >{{ cellText(d.date, idx - 1) }}</div>
       </template>
     </div>
 
     <div class="text-caption text-grey-7 q-pa-md">
       Tap a past slot to log it. Tap a future slot to pre-block a focus block and get reminded when it starts.
+      To journal several slots together, drag across them, or hold Shift (a range) or Ctrl/⌘ (one by one) while clicking.
+      On a touch screen, turn on Select and tap the slots.
     </div>
 
+    <q-page-sticky v-if="selected.size" position="bottom" :offset="[0, 14]" style="z-index: 5">
+      <div class="selbar">
+        <div class="selbar__text">
+          <b>{{ selected.size }}</b> {{ selected.size === 1 ? 'slot' : 'slots' }} selected
+          <span v-if="selKind === 'mixed'" class="text-secondary"> · pick past or future slots, not both</span>
+        </div>
+        <q-btn color="primary" unelevated no-caps dense :disable="selKind === 'mixed'" :label="selKind === 'future' ? 'Pre-block together' : 'Journal together'" @click="openSelection" />
+        <q-btn flat dense no-caps label="Clear" @click="clearSelection" />
+      </div>
+    </q-page-sticky>
+
     <q-dialog v-model="dialog">
-      <q-card style="width: 420px; max-width: 94vw">
-        <SlotEditor v-if="dialog" :date="target.date" :idx="target.idx" :mode="target.mode" @done="dialog = false" />
+      <q-card style="width: 520px; max-width: 94vw">
+        <SlotEditor v-if="dialog" :slots="target.slots" :mode="target.mode" @done="finish" />
       </q-card>
     </q-dialog>
   </q-page>
 </template>
 
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import SlotEditor from 'components/SlotEditor.vue'
 import { useTempoStore } from 'stores/tempo'
 import { reschedule } from 'src/services/notify'
-import { watch } from 'vue'
 import { DAY_NAMES, SLOT_COUNT, addDays, dateKey, fmtMin, slotAt, slotStartDate, slotStartMin, weekStart } from 'src/utils/time'
+import { cellKey, parseCell, rectKeys, toSlots } from 'src/utils/selection'
 
 const store = useTempoStore()
 const ws = ref(weekStart(new Date()))
 const dialog = ref(false)
-const target = reactive({ date: '', idx: 0, mode: 'log' })
+const target = reactive({ slots: [], mode: 'log' })
 const todayKey = dateKey(new Date())
 
 const days = computed(() => Array.from({ length: 7 }, (_, i) => { const d = addDays(ws.value, i); return { date: dateKey(d), num: d.getDate() } }))
+const dates = computed(() => days.value.map((d) => d.date))
 const rangeLabel = computed(() => {
   const a = ws.value, b = addDays(a, 6), f = { day: 'numeric', month: 'short' }
   return `${a.toLocaleDateString(undefined, f)} – ${b.toLocaleDateString(undefined, f)}`
@@ -68,6 +88,72 @@ const shift = (n) => { ws.value = addDays(ws.value, n * 7) }
 const isFuture = (date, idx) => slotStartDate(date, idx) > new Date()
 const nowSlot = () => { const n = new Date(); return { date: dateKey(n), idx: slotAt(n) } }
 
+// ---------- selection: drag, Shift (range), Ctrl/⌘ (toggle), or Select mode (touch) ----------
+const selected = ref(new Set())
+const anchor = ref(null)
+const selectMode = ref(false)
+let dragStart = null
+let dragging = false
+let dragBase = null
+let swallowClick = false
+
+const selKind = computed(() => {
+  const slots = toSlots(selected.value)
+  if (!slots.length) return 'none'
+  const future = slots.filter((s) => isFuture(s.date, s.idx)).length
+  return future === 0 ? 'past' : future === slots.length ? 'future' : 'mixed'
+})
+
+function clearSelection() { selected.value = new Set(); anchor.value = null }
+function toggleSelectMode() { selectMode.value = !selectMode.value; if (!selectMode.value) clearSelection() }
+function toggleCell(date, idx) {
+  const next = new Set(selected.value)
+  const k = cellKey(date, idx)
+  if (next.has(k)) next.delete(k); else next.add(k)
+  selected.value = next
+  anchor.value = { date, idx }
+}
+
+function onCell(e, date, idx) {
+  if (swallowClick) return
+  if (e.shiftKey && anchor.value) {
+    const base = e.ctrlKey || e.metaKey ? new Set(selected.value) : new Set()
+    rectKeys(anchor.value, { date, idx }, dates.value).forEach((k) => base.add(k))
+    selected.value = base
+    return
+  }
+  if (e.ctrlKey || e.metaKey || e.shiftKey || selectMode.value) { toggleCell(date, idx); return }
+  if (selected.value.size) clearSelection()
+  open(date, idx)
+}
+
+function onDown(e, date, idx) {
+  if (e.pointerType !== 'mouse' || e.button !== 0 || e.shiftKey) return
+  dragStart = { date, idx }
+  dragging = false
+  dragBase = e.ctrlKey || e.metaKey ? new Set(selected.value) : new Set()
+}
+function onEnter(date, idx) {
+  if (!dragStart) return
+  if (!dragging && dragStart.date === date && dragStart.idx === idx) return
+  dragging = true
+  const next = new Set(dragBase)
+  rectKeys(dragStart, { date, idx }, dates.value).forEach((k) => next.add(k))
+  selected.value = next
+}
+function onUp() {
+  if (dragging) {
+    anchor.value = dragStart
+    swallowClick = true
+    setTimeout(() => { swallowClick = false }, 0)
+  }
+  dragStart = null
+  dragging = false
+}
+function onKey(e) { if (e.key === 'Escape' && !dialog.value) { clearSelection(); selectMode.value = false } }
+onMounted(() => { window.addEventListener('pointerup', onUp); window.addEventListener('keydown', onKey) })
+onBeforeUnmount(() => { window.removeEventListener('pointerup', onUp); window.removeEventListener('keydown', onKey) })
+
 function cellClass(date, idx) {
   const s = store.slot(date, idx)
   const p = store.planned(date, idx)
@@ -76,6 +162,7 @@ function cellClass(date, idx) {
     idx % 2 === 0 ? 'hour' : '',
     isFuture(date, idx) ? 'future' : '',
     n.date === date && n.idx === idx ? 'now' : '',
+    selected.value.has(cellKey(date, idx)) ? 'sel' : '',
     s ? s.kind : p && !s ? 'plan' : ''
   ]
 }
@@ -97,10 +184,21 @@ function cellTitle(date, idx) {
   return s?.kind === 'focus' ? store.slotTitle(s) : ''
 }
 function open(date, idx) {
-  Object.assign(target, { date, idx, mode: isFuture(date, idx) ? 'plan' : 'log' })
+  Object.assign(target, { slots: [{ date, idx }], mode: isFuture(date, idx) ? 'plan' : 'log' })
   dialog.value = true
+}
+function openSelection() {
+  if (selKind.value === 'mixed' || selKind.value === 'none') return
+  Object.assign(target, { slots: toSlots(selected.value), mode: selKind.value === 'future' ? 'plan' : 'log' })
+  dialog.value = true
+}
+function finish() {
+  dialog.value = false
+  clearSelection()
 }
 
 // plans changed → refresh upcoming reminders
 watch(() => store.plannedList.length, () => reschedule(store))
+// a selection from another week is hidden, so drop it when the week changes
+watch(ws, () => { clearSelection() })
 </script>

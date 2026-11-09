@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { supabase } from 'src/services/supabase'
+import { BUILTIN_STATIONERY } from 'src/utils/stationery'
 
 const LS_KEY = 'tempo30:v1'
 export const BLOCK_COLORS = ['#2F6FEB', '#E8743B', '#1F9D6E', '#9B51E0', '#D9A400', '#D8343F', '#12A4B6', '#6B7A8C']
@@ -8,7 +9,9 @@ export const DEFAULT_SETTINGS = {
   promptMode: 'both', // 'quick' | 'full' | 'both'
   notificationsEnabled: false,
   summaryTime: '18:00', // Friday
-  planReminders: true
+  planReminders: true,
+  stationeryId: 'ruled', // paper used in the journal editor
+  richNotes: true // journal editor: rich multi-line (true) or single line (false)
 }
 
 const rid = (kind, key) => `${kind}|${key}`
@@ -96,6 +99,13 @@ export const useTempoStore = defineStore('tempo', {
       Object.values(s.records)
         .filter((r) => r.kind === 'plan' && !r.deleted)
         .map((r) => ({ key: r.key, ...r.data })),
+    customStationery: (s) =>
+      Object.values(s.records).filter((r) => r.kind === 'stationery' && !r.deleted).map((r) => ({ ...r.data, custom: true })),
+    stationeryList() { return [...BUILTIN_STATIONERY, ...this.customStationery] },
+    stationeryById() {
+      const m = Object.fromEntries(this.stationeryList.map((x) => [x.id, x]))
+      return (id) => m[id] || m.ruled
+    },
     loggedDates: (s) => {
       const set = new Set()
       Object.values(s.records).forEach((r) => {
@@ -111,33 +121,59 @@ export const useTempoStore = defineStore('tempo', {
         localStorage.setItem(LS_KEY, JSON.stringify({ records: this.records, lastPull: this.lastPull }))
       } catch (e) { /* storage full or unavailable */ }
     },
-    put(kind, key, data) {
+    _put(kind, key, data) {
       this.records[rid(kind, key)] = { kind, key, data, updatedAt: nowIso(), deleted: false, dirty: true }
-      this.afterWrite()
     },
-    remove(kind, key) {
+    put(kind, key, data) { this._put(kind, key, data); this.afterWrite() },
+    _remove(kind, key) {
       const id = rid(kind, key)
       if (!this.records[id]) return
       this.records[id] = { ...this.records[id], deleted: true, updatedAt: nowIso(), dirty: true }
-      this.afterWrite()
     },
+    remove(kind, key) { this._remove(kind, key); this.afterWrite() },
     afterWrite() {
       this.persist()
       clearTimeout(syncTimer)
       syncTimer = setTimeout(() => this.sync(), 1500)
     },
 
-    setSlot(date, idx, { kind, blockId = null, note = '' }) {
+    slotData(date, idx, { kind, blockId = null, note = '', html = '', paper = '' }) {
       // Snapshot the block title active now, so later renames never rewrite this log.
       const prev = this.slot(date, idx)
       const title = kind === 'focus' && blockId
         ? (prev && prev.blockId === blockId && prev.title ? prev.title : this.records[rid('block', blockId)]?.data.name || '')
         : ''
-      this.put('slot', `${date}_${idx}`, { date, idx, kind, blockId, title, note: note.trim() })
+      return { date, idx, kind, blockId, title, note: note.trim(), ...(html ? { html } : {}), ...(paper ? { paper } : {}) }
+    },
+    setSlot(date, idx, f) { this.put('slot', `${date}_${idx}`, this.slotData(date, idx, f)) },
+    /** Journal several slots together with the same entry. One save, one sync. */
+    setSlots(slots, f) {
+      slots.forEach(({ date, idx }) => this._put('slot', `${date}_${idx}`, this.slotData(date, idx, f)))
+      this.afterWrite()
     },
     clearSlot(date, idx) { this.remove('slot', `${date}_${idx}`) },
+    clearSlots(slots) { slots.forEach(({ date, idx }) => this._remove('slot', `${date}_${idx}`)); this.afterWrite() },
     setPlanned(date, idx, blockId) { this.put('plan', `${date}_${idx}`, { date, idx, blockId }) },
+    setPlannedMany(slots, blockId) {
+      slots.forEach(({ date, idx }) => this._put('plan', `${date}_${idx}`, { date, idx, blockId }))
+      this.afterWrite()
+    },
     clearPlanned(date, idx) { this.remove('plan', `${date}_${idx}`) },
+    clearPlannedMany(slots) { slots.forEach(({ date, idx }) => this._remove('plan', `${date}_${idx}`)); this.afterWrite() },
+
+    // ---------- journal stationery (text format, synced like any record) ----------
+    addStationery({ id, name, paper }) {
+      const taken = new Set(this.stationeryList.map((x) => x.id))
+      const base = id || 'paper'
+      let uid = base, n = 2
+      while (taken.has(uid)) uid = `${base}-${n++}`
+      this.put('stationery', uid, { id: uid, name, paper })
+      return uid
+    },
+    removeStationery(id) {
+      this.remove('stationery', id)
+      if (this.settings.stationeryId === id) this.saveSettings({ stationeryId: 'ruled' })
+    },
 
     saveBlock(id, patch) {
       const cur = this.records[rid('block', id)]?.data || {}
