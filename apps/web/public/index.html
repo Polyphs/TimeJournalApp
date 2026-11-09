@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>timejournal: track first, then tidy</title>
+<meta name="description" content="A time journal. Log your week in 30-minute blocks, see where the time really goes, then choose what to change. Free until you find value.">
+<link rel="canonical" href="https://timejournal.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="timejournal: track first, then tidy">
+<meta property="og:description" content="A time journal. Log your week in 30-minute blocks, see where the time really goes, then choose what to change. Free until you find value.">
+<meta property="og:url" content="https://timejournal.app/">
+<meta name="theme-color" content="#0E1A1F">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>if(location.hash.indexOf('#/')===0){location.replace('https://my.timejournal.app/'+location.hash);}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0;background:#F7F8F6}
+a{text-underline-offset:3px}
+a:hover{opacity:.85}
+
+:focus-visible{outline:3px solid #FACC15;outline-offset:2px}</style>
+</head>
+<body>
+
+
+<div style="width: 100%; box-sizing: border-box; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #11181C; background: #F7F8F6; line-height: 1.6">
+
+<!-- HERO -->
+<div style="background: #0E1A1F; padding: 0 24px 96px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px">
+
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 20px 0">
+<a href="#top" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #F4F7F6; min-height: 48px">
+<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="3" fill="#2DD4BF"/><rect x="14" y="1" width="11" height="11" rx="3" fill="#60A5FA"/><rect x="1" y="14" width="11" height="11" rx="3" fill="#F59E0B"/><rect x="14" y="14" width="11" height="11" rx="3" fill="#52666E"/></svg>
+<span style="font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em">timejournal</span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px">
+<a href="/use-cases/" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1.5px solid #5EEAD4; color: #5EEAD4; font-weight: 600; font-size: 15px; text-decoration: none">Watch Use cases</a>
+<a href="#why" style="color: #C7D2D6; text-decoration: none; font-size: 15px; display: inline-flex; align-items: center; min-height: 48px">Why track first</a>
+<a href="#how" style="color: #C7D2D6; text-decoration: none; font-size: 15px; display: inline-flex; align-items: center; min-height: 48px">How it works</a>
+<a href="#review" style="color: #C7D2D6; text-decoration: none; font-size: 15px; display: inline-flex; align-items: center; min-height: 48px">The review</a>
+<a href="https://my.timejournal.app/#/" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: #5EEAD4; color: #0B1418; font-weight: 600; font-size: 15px; text-decoration: none">Start tracking</a>
+</div>
+</nav>
+
+<div id="top" style="display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+<div style="flex: 1 1 500px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5EEAD4">A time journal · free until you find value</div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(38px, 5.4vw, 68px); line-height: 1.03; letter-spacing: -0.03em; color: #F4F7F6">Know where your time goes <span style="color: #5EEAD4">before</span> you try to manage it.</h1>
+<p style="margin: 0; font-size: 19px; line-height: 1.6; color: #C7D2D6; max-width: 560px">Most tools hand you a to-do list on day one. A good coach starts somewhere else: they ask you to track your time first. timejournal is that first step, a way to see your week as it really happened.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="https://my.timejournal.app/#/" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 12px; background: #5EEAD4; color: #0B1418; font-weight: 600; font-size: 17px; text-decoration: none">Start your first week</a>
+<a href="#how" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 12px; border: 1.5px solid #4F7A86; color: #E6EEF0; font-weight: 500; font-size: 17px; text-decoration: none">See how it works</a>
+</div>
+</div>
+
+<div style="flex: 1 1 400px; min-width: 0">
+<div style="background: #14262D; border: 1px solid #24404A; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #9FB1B7">
+<span>Your week, as it happened</span>
+<span>Illustrative sample</span>
+</div>
+<div role="img" aria-label="Illustrative weekly grid of 30-minute blocks, Monday to Friday, colored by activity type, with hatched blocks that were never logged" style="display: flex; gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 4px; width: 40px; flex: 0 0 40px">
+<div style="height: 18px"></div>
+
+<div style="height: 48px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #9FB1B7">9:00</div>
+
+<div style="height: 48px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #9FB1B7">10:00</div>
+
+<div style="height: 48px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #9FB1B7">11:00</div>
+
+<div style="height: 48px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #9FB1B7">12:00</div>
+
+<div style="height: 48px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #9FB1B7">13:00</div>
+
+<div style="height: 48px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 1; color: #9FB1B7">14:00</div>
+
+</div>
+
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="height: 18px; text-align: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 18px; color: #C7D2D6">M</div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #7C8DA0"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+</div>
+
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="height: 18px; text-align: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 18px; color: #C7D2D6">T</div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #7C8DA0"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+</div>
+
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="height: 18px; text-align: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 18px; color: #C7D2D6">W</div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #7C8DA0"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+</div>
+
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="height: 18px; text-align: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 18px; color: #C7D2D6">T</div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #7C8DA0"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+</div>
+
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="height: 18px; text-align: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 18px; color: #C7D2D6">F</div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #7C8DA0"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #60A5FA"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #F59E0B"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+<div style="height: 22px; border-radius: 4px; background: #2DD4BF"></div>
+
+</div>
+
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: #C7D2D6">
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: #2DD4BF"></span>Focus block</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: #60A5FA"></span>Goal-driven</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: #F59E0B"></span>Productive</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: #7C8DA0"></span>Passing time</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: repeating-linear-gradient(45deg, #52666E, #52666E 3px, #22343B 3px, #22343B 7px)"></span>Not logged</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #5EEAD4">Try saying…</div>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #F4F7F6">Track your time as-is for a week.<br>You will start seeing time for your preferred work.</p>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #C7D2D6">In the illustrated image, passing time and not logged blocks give you an idea to plan your next week.</p>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #9FB1B7">Sample data, not a real user.</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- WHY -->
+<div id="why" style="padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #0F766E">The missing first step</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.1; letter-spacing: -0.02em">A list can't fix a week you can't see.</h2>
+<p style="margin: 0; font-size: 18px; color: #374151">When we jump straight to writing tasks down, crossing them off feels good for a while. Then it fades. Our mental model is still living in the drowning: busy, behind, and without a clear picture of why. A productivity coach, a life coach or a career coach would stop you there and say the same thing: first, track your time.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border: 2px solid #0F766E; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 18px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 24px; font-weight: 700">Start with a record</h3>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; color: #374151; font-size: 17px">
+<li>Log where the hours actually go</li>
+<li>See the pattern, including the gaps</li>
+<li>Choose a few actions aimed at what is real</li>
+</ul>
+</div>
+<div style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 18px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 24px; font-weight: 700">Continue with lists</h3>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; color: #374151; font-size: 17px">
+<li>Write down everything you should do</li>
+<li>Cross things off and enjoy the brief high</li>
+<li>Same overload next month, now with a longer list</li>
+</ul>
+</div>
+</div>
+
+<div style="background: #0E1A1F; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<p style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.15; letter-spacing: -0.02em; color: #F4F7F6">Seeing your week is the first step to shaping it.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C7D2D6; max-width: 720px">With a record, your planning starts from what really happened, not from memory alone. Your own week shows you where the real time goes, and where the time you hoped for has been hiding. Now you can use it.</p>
+</div>
+
+</div>
+</div>
+
+<!-- HOW -->
+<div id="how" style="background: #EAF0EE; padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #0F766E">How it works</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.1; letter-spacing: -0.02em">Track. See. Choose.</h2>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #0F766E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 18px">1</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 26px; font-weight: 700">Track</h3>
+<p style="margin: 0; font-size: 17px; color: #374151">Get a prompt every 30 minutes. Tap what you were doing: a focus block, goal-driven work, something productive, or just passing time. Rough is fine. A record beats a memory.</p>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #0F766E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 18px">2</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 26px; font-weight: 700">See</h3>
+<p style="margin: 0; font-size: 17px; color: #374151">Your week fills in as a grid: focus blocks, everything else, and the gaps. Look at the gaps first. They show where the time went when you weren't watching.</p>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #0F766E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 18px">3</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 26px; font-weight: 700">Choose</h3>
+<p style="margin: 0; font-size: 17px; color: #374151">Each Friday you get a time-commitment summary, then rearrange or pre-block next week's focus blocks. This is when a to-do list, a clean-up or a goal review finally becomes worth doing.</p>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #4B5563">A realistic first month</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 210px; min-width: 0; border-top: 3px solid #0F766E; padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: #4B5563">WEEK 1</div>
+<div style="font-weight: 600; font-size: 18px">Just track.</div>
+<p style="margin: 0; font-size: 15px; color: #374151">No goals, no fixing. Let the week show itself.</p>
+</div>
+<div style="flex: 1 1 210px; min-width: 0; border-top: 3px solid #0F766E; padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: #4B5563">WEEK 2</div>
+<div style="font-weight: 600; font-size: 18px">Spot the pattern.</div>
+<p style="margin: 0; font-size: 15px; color: #374151">When did focus time really happen? Which hours keep vanishing?</p>
+</div>
+<div style="flex: 1 1 210px; min-width: 0; border-top: 3px solid #0F766E; padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: #4B5563">WEEK 3</div>
+<div style="font-weight: 600; font-size: 18px">Change one thing.</div>
+<p style="margin: 0; font-size: 15px; color: #374151">Pre-block your focus hours, or cut one recurring drain. Only one.</p>
+</div>
+<div style="flex: 1 1 210px; min-width: 0; border-top: 3px solid #0F766E; padding-top: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: #4B5563">WEEK 4 ONWARD</div>
+<div style="font-weight: 600; font-size: 18px">Review every Friday.</div>
+<p style="margin: 0; font-size: 15px; color: #374151">Read the summary, adjust, repeat.</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- REVIEW -->
+<div id="review" style="background: #0E1A1F; padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5EEAD4">The review</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.1; letter-spacing: -0.02em; color: #F4F7F6">Tracking shows you the week. The review helps you shape the next one.</h2>
+<p style="margin: 0; font-size: 18px; color: #C7D2D6">A log you look back on becomes a guide. The pause where you see what happened and decide what changes is what turns tracking into progress.</p>
+</div>
+
+<div style="flex: 1 1 340px; min-width: 0; background: #14262D; border: 1px solid #24404A; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; color: #5EEAD4">YOUR FRIDAY, IN FOUR QUESTIONS</div>
+<ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 17px; color: #F4F7F6">
+<li>Where did the week actually go?</li>
+<li>Which blocks served what matters?</li>
+<li>What did I postpone, and where can it fit next week?</li>
+<li>What is the one thing I will change?</li>
+</ol>
+</div>
+
+</div>
+</div>
+
+<!-- START -->
+<div id="start" style="background: #0F766E; padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 800; font-size: clamp(34px, 4.6vw, 58px); line-height: 1.06; letter-spacing: -0.03em; color: #FFFFFF">Try one week. Then decide.</h2>
+<p style="margin: 0; font-size: 19px; color: #FFFFFF; max-width: 560px">Log this week. Read your Friday summary. Pick one change. That is the whole experiment, and it costs nothing. timejournal is free until you choose to pay. No walls, no ads. Pay only when you start finding value.</p>
+<p style="margin: 0; font-size: 16px; color: #FFFFFF; max-width: 560px">No account needed to begin. You can sign up later to save and sync your progress.</p>
+<p style="margin: 0; font-size: 16px; color: #FFFFFF; max-width: 560px">Your data is yours. Not sold. Not seen by us. Not used to train AI. You choose who you share with.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="https://my.timejournal.app/#/" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 12px; background: #FFFFFF; color: #0F766E; font-weight: 600; font-size: 17px; text-decoration: none">Start your first week</a>
+<a href="#follow" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 12px; border: 1.5px solid #FFFFFF; color: #FFFFFF; font-weight: 500; font-size: 17px; text-decoration: none">Follow the blog</a>
+<a href="#start" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 12px; color: #FFFFFF; font-weight: 500; font-size: 17px">Pay when it helps</a>
+
+<form id="follow" name="subscribe" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field" style="flex: 1 1 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; max-width: 560px">
+<input type="hidden" name="form-name" value="subscribe">
+<input type="hidden" name="source" value="home">
+<p hidden><label>Leave this empty: <input name="bot-field"></label></p>
+<label for="follow-email-home" style="font-size: 17px; font-weight: 500; color: #FFFFFF">Follow the blog. One short email when there is something worth reading.</label>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<input id="follow-email-home" type="email" name="email" required autocomplete="email" placeholder="you@example.com" style="flex: 1 1 240px; min-width: 0; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 10px; font-family: inherit; font-size: 17px; color: #0F1B20; background: #FFFFFF">
+<button type="submit" style="min-height: 48px; padding: 0 22px; border: 0; border-radius: 10px; background: #0B1418; color: #FFFFFF; font-family: inherit; font-weight: 600; font-size: 16px; cursor: pointer">Follow</button>
+</div>
+<p data-msg role="alert" style="margin: 0; font-size: 14px; color: #FFFFFF"></p>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #FFFFFF">By following you agree to get our emails, starting with a welcome note. Unsubscribe any time. See the <a href="/privacy/" style="color: #FFFFFF">privacy page</a>.</p>
+</form>
+</div>
+</div>
+
+<div style="flex: 1 1 340px; min-width: 0; background: rgba(255, 255, 255, 0.14); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; color: #FFFFFF">A SMALL NUDGE</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 24px; font-weight: 700; color: #FFFFFF">Tell one person.</h3>
+<p style="margin: 0; font-size: 16px; color: #FFFFFF">Share your Friday summary with someone you trust. Saying it out loud makes it real, and they can ask you about it next week.</p>
+</div>
+
+</div>
+</div>
+
+<!-- FAQ -->
+<div id="faq" style="padding: 96px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.1; letter-spacing: -0.02em">Fair questions.</h2>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 21px; font-weight: 700">Why track before making a to-do list?</h3>
+<p style="margin: 0; font-size: 16px; color: #374151">A list says what you intend. A record shows what happened. Start from what happened and your list gets honest.</p>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 21px; font-weight: 700">What goes in a block?</h3>
+<p style="margin: 0; font-size: 16px; color: #374151">Whatever matters to you: a goal, a priority, a task, or something important you need to remember to finish. The block is the unit. You decide what it stands for.</p>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 21px; font-weight: 700">How long before it is useful?</h3>
+<p style="margin: 0; font-size: 16px; color: #374151">One week gives you a first picture. A few weeks gives you a pattern. Keep the Friday review and it keeps getting sharper.</p>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border: 1px solid #D5DEDB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-size: 21px; font-weight: 700">Is it really free?</h3>
+<p style="margin: 0; font-size: 16px; color: #374151">Free until you choose to pay. No walls, no ads. Pay only when you start finding value. Your data is yours: not sold, not seen by us, not used to train AI, and you choose who you share with.</p>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<div style="background: #0A1317; padding: 64px 24px; box-sizing: border-box">
+<div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px 64px">
+
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="3" fill="#2DD4BF"/><rect x="14" y="1" width="11" height="11" rx="3" fill="#60A5FA"/><rect x="1" y="14" width="11" height="11" rx="3" fill="#F59E0B"/><rect x="14" y="14" width="11" height="11" rx="3" fill="#52666E"/></svg>
+<span style="font-family: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 20px; color: #F4F7F6">timejournal</span>
+</div>
+<p style="margin: 0; font-size: 16px; color: #C7D2D6">Track first. Then tidy.</p>
+<p style="margin: 0; font-size: 15px"><a href="/use-cases/" style="color: #C7D2D6">Use cases</a> &middot; <a href="/privacy/" style="color: #C7D2D6">Privacy</a></p>
+</div>
+
+<div style="flex: 2 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; color: #5EEAD4">STANDING ON SHOULDERS</div>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #F4F7F6; max-width: 820px">Time logs aren't new, and neither is the lesson behind them. Different authors, different books, one thread: review. Look back at where your time went, then decide what comes next. Without that review, effort becomes an endless loop with no goal. timejournal turns that first step into an app.</p>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; color: #C7D2D6">
+<li>Peter Drucker, <em>The Effective Executive</em> (1967)</li>
+<li>Stephen R. Covey, A. Roger Merrill and Rebecca R. Merrill, <em>First Things First</em> (1994)</li>
+<li>David Allen, <em>Getting Things Done</em> (2001)</li>
+<li>Laura Vanderkam, <em>168 Hours</em> (2010)</li>
+<li>Marshall Goldsmith and Mark Reiter, <em>Triggers</em> (2015)</li>
+</ul>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #9FB1B7">Named for credit and context. These authors are not affiliated with or endorsing timejournal.</p>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script>document.addEventListener('submit',function(ev){var f=ev.target;if(!f||!f.getAttribute||f.getAttribute('name')!=='subscribe')return;ev.preventDefault();var b=f.querySelector('button');if(b)b.disabled=true;var body=new URLSearchParams(new FormData(f)).toString();fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}).then(function(r){if(!r.ok)throw new Error('bad');f.innerHTML='<p role="status" style="margin:0;font-size:18px;color:#FFFFFF">Thanks, you are on the list.</p>';}).catch(function(){if(b)b.disabled=false;var m=f.querySelector('[data-msg]');if(m)m.textContent='Something went wrong. Please try again.';});});</script>
+
+</body>
+</html>
