@@ -67,6 +67,14 @@
       <q-btn v-if="hasExisting" flat no-caps color="secondary" :label="multi ? 'Clear all' : 'Clear'" @click="clear" />
       <q-btn flat no-caps label="Cancel" @click="$emit('done')" />
     </div>
+
+    <div v-if="recent.length" class="q-mt-md">
+      <div class="text-caption text-grey-8 q-mb-xs">Recent {{ kindLabel }} entries: tap one to reuse, then edit if needed</div>
+      <button v-for="e in recent" :key="e.key" type="button" class="recentbtn" @click="useRecent(e)">
+        <span class="recent-text">{{ e.note }}</span>
+        <span class="recent-when">{{ recentWhen(e) }}</span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -129,6 +137,23 @@ function pickPaper(id) {
   store.saveSettings({ stationeryId: id })
 }
 
+// recent entries of the current tab, to avoid retyping work that carries on from earlier slots
+const KIND_LABELS = { focus: 'focus block', goal: 'goal', productive: 'productive' }
+const kindLabel = computed(() => KIND_LABELS[kind.value] || '')
+const recent = computed(() =>
+  props.mode === 'log' && showsNote.value
+    ? store.recentNotes(kind.value, 5, slotList.value.map((s) => `${s.date}_${s.idx}`))
+    : []
+)
+function useRecent(e) {
+  if (rich.value) noteHtml.value = e.html ? sanitizeHtml(e.html) : textToHtml(e.note)
+  else noteText.value = e.note.replace(/\s*\n+\s*/g, ' ')
+}
+function recentWhen(e) {
+  const d = parseKey(e.date).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })
+  return `${d} · ${slotLabel(e.idx)}`
+}
+
 const dayLabel = computed(() => {
   const d = parseKey(slotList.value[0].date)
   return `${DAY_NAMES[(d.getDay() + 6) % 7]}, ${d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}`
@@ -159,6 +184,10 @@ function clear() {
 
 <style scoped>
 .journal-paper { border: 2px solid var(--ink); border-radius: 6px; overflow: hidden; }
+.recentbtn { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; text-align: left; background: #fff; border: 1px solid rgba(27, 36, 51, 0.35); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; cursor: pointer; font: inherit; color: inherit; }
+.recentbtn:hover, .recentbtn:focus-visible { border-color: var(--ink); background: rgba(27, 36, 51, 0.05); }
+.recent-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+.recent-when { font-size: 11px; color: #6b7a8c; }
 .journal-editor { background: transparent; border: 0; }
 .journal-editor :deep(.q-editor__toolbar) { border-bottom: 1px solid rgba(27, 36, 51, 0.25); background: rgba(255, 255, 255, 0.55); }
 .journal-editor :deep(.q-editor__content) { background: transparent; }

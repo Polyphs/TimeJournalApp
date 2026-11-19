@@ -106,6 +106,22 @@ export const useTempoStore = defineStore('tempo', {
       const m = Object.fromEntries(this.stationeryList.map((x) => [x.id, x]))
       return (id) => m[id] || m.ruled
     },
+    /** Latest distinct journal entries of one tab (newest slot first), so past wording can be reused. */
+    recentNotes: (s) => (kind, limit = 5, excludeKeys = []) => {
+      const skip = new Set(excludeKeys)
+      const rows = Object.values(s.records)
+        .filter((r) => r.kind === 'slot' && !r.deleted && r.data.kind === kind && r.data.note && !skip.has(r.key))
+        .sort((a, b) => (a.data.date === b.data.date ? b.data.idx - a.data.idx : a.data.date < b.data.date ? 1 : -1))
+      const seen = new Set()
+      const out = []
+      for (const r of rows) {
+        if (seen.has(r.data.note)) continue
+        seen.add(r.data.note)
+        out.push({ key: r.key, date: r.data.date, idx: r.data.idx, note: r.data.note, html: r.data.html || '' })
+        if (out.length >= limit) break
+      }
+      return out
+    },
     loggedDates: (s) => {
       const set = new Set()
       Object.values(s.records).forEach((r) => {
