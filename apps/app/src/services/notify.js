@@ -43,7 +43,7 @@ export async function reschedule(store) {
       id: 'LOG_QUICK',
       actions: [
         { id: 'productive', title: 'Productive', foreground: true },
-        { id: 'passing', title: 'Passing time', foreground: true }
+        { id: 'passing', title: 'Unwind time', foreground: true }
       ]
     }]
   })

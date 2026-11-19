@@ -12,7 +12,7 @@
 
     <div class="row q-col-gutter-md q-mb-lg">
       <div class="col-4 stat"><b>{{ fmtH(sum.productive) }}</b><span>Productive</span></div>
-      <div class="col-4 stat"><b>{{ fmtH(sum.passing) }}</b><span>Passing time</span></div>
+      <div class="col-4 stat"><b>{{ fmtH(sum.passing) }}</b><span>Unwind time</span></div>
       <div class="col-4 stat"><b>{{ fmtH(sum.unlogged) }}</b><span>Not logged</span></div>
     </div>
 

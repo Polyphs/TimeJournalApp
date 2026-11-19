@@ -41,7 +41,7 @@ Android 13+ needs the notification permission (the Settings toggle requests it).
 ## How it maps to your notes
 
 - Weekly grid with Mon–Sun and 30-min rows; the Focus Blocks legend sits above the grid.
-- Prompt every 30 min: Focus block #, Goal-driven, Productive (optional note), or Passing time. Mode is configurable: one tap, full screen, or both.
-- Friday notification opens the Summary (productive vs passing vs not logged, hours per focus block).
+- Prompt every 30 min: Focus block #, Goal-driven, Productive (optional note), or Unwind time. Mode is configurable: one tap, full screen, or both.
+- Friday notification opens the Summary (productive vs unwind vs not logged, hours per focus block).
 - After 7 logged days the Blocks tab invites you to reorder blocks by actual hours.
 - Future slots on the grid can be pre-blocked (dashed outline) and trigger a reminder at start time.
