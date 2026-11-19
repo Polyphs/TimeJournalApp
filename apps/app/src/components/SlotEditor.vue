@@ -26,7 +26,7 @@
           { label: 'Focus block', value: 'focus' },
           { label: 'Goal', value: 'goal' },
           { label: 'Productive', value: 'productive' },
-          { label: 'Passing', value: 'passing' }
+          { label: 'Lazing', value: 'passing' }
         ]"
       />
     </template>
