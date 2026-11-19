@@ -44,7 +44,7 @@ function onTick(now) {
   const actions = []
   if (quick) {
     actions.push({ label: 'Productive', color: 'white', handler: () => store.setSlot(t.date, t.idx, { kind: 'productive' }) })
-    actions.push({ label: 'Passing', color: 'white', handler: () => store.setSlot(t.date, t.idx, { kind: 'passing' }) })
+    actions.push({ label: 'Unwind', color: 'white', handler: () => store.setSlot(t.date, t.idx, { kind: 'passing' }) })
   }
   if (s.promptMode !== 'quick') actions.push({ label: s.promptMode === 'full' ? 'Log it' : 'Details', color: 'amber', handler: () => goLog(t.date, t.idx) })
   $q.notify({ message: `Last 30 min (${slotLabel(t.idx)})?`, position: 'top', timeout: 30000, color: 'primary', actions })

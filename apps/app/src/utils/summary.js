@@ -40,7 +40,7 @@ export function summarize(store, ws, now = new Date()) {
 export const fmtH = (h) => (Number.isInteger(h) ? `${h}h` : `${h.toFixed(1)}h`)
 
 export function summaryText(sum, rangeLabel) {
-  const lines = [`My week (${rangeLabel})`, `Productive ${fmtH(sum.productive)} · Passing time ${fmtH(sum.passing)} · Unlogged ${fmtH(sum.unlogged)}`]
+  const lines = [`My week (${rangeLabel})`, `Productive ${fmtH(sum.productive)} · Unwind time ${fmtH(sum.passing)} · Unlogged ${fmtH(sum.unlogged)}`]
   sum.blocks.filter((b) => b.hours > 0).forEach((b) => lines.push(`${b.order}. ${b.name}: ${fmtH(b.hours)}`))
   if (sum.goal) lines.push(`Goal-driven: ${fmtH(sum.goal)}`)
   return lines.join('\n')

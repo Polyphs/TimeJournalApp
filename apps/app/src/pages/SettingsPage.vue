@@ -8,7 +8,7 @@
       @update:model-value="(v) => update({ promptMode: v })"
     />
     <div class="text-caption text-grey-7 q-mt-xs q-mb-md">
-      {{ { quick: 'Buttons on the notification: Productive or Passing time. Tapping it opens the week.', full: 'Tapping the notification opens the log screen (focus block, goal, note).', both: 'Buttons for a quick answer, and tapping the notification opens the log screen.' }[s.promptMode] }}
+      {{ { quick: 'Buttons on the notification: Productive or Unwind time. Tapping it opens the week.', full: 'Tapping the notification opens the log screen (focus block, goal, note).', both: 'Buttons for a quick answer, and tapping the notification opens the log screen.' }[s.promptMode] }}
     </div>
 
     <q-toggle :model-value="s.notificationsEnabled" label="Notify me every 30 minutes (05:00–23:00)" @update:model-value="toggleNotifications" />
