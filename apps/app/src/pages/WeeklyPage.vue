@@ -34,7 +34,7 @@
           @click="onCell($event, d.date, idx - 1)"
           @pointerdown="onDown($event, d.date, idx - 1)"
           @pointerenter="onEnter(d.date, idx - 1)"
-        >{{ cellText(d.date, idx - 1) }}</div>
+        ><span class="cell__text">{{ cellText(d.date, idx - 1) }}</span></div>
       </template>
     </div>
 
@@ -173,15 +173,39 @@ function cellStyle(date, idx) {
   if (!s && p) return { color: store.blockById(p.blockId)?.color || '#6B7A8C' }
   return {}
 }
+/** First line of an entry. Uses the saved HTML so line breaks the plain note lost still count. */
+function firstLineOf(s) {
+  let text = s.note || ''
+  if (s.html) {
+    const doc = new DOMParser().parseFromString(`<body>${s.html}</body>`, 'text/html')
+    doc.querySelectorAll('br').forEach((b) => b.replaceWith('\n'))
+    doc.querySelectorAll('p,div,li,h1,h2,h3,blockquote,pre').forEach((el) => { el.prepend('\n'); el.append('\n') })
+    text = doc.body.textContent || text
+  }
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean)
+  return { first: lines[0] || '', more: lines.length > 1 }
+}
+/** "G - first line of the entry" (with "..." if there is more), or just the letter when there is no note. */
+function withFirstLine(letter, s) {
+  const { first, more } = firstLineOf(s)
+  return first ? `${letter} - ${first}${more ? '...' : ''}` : letter
+}
 function cellText(date, idx) {
   const s = store.slot(date, idx)
   const p = store.planned(date, idx)
-  if (s) return s.kind === 'focus' ? store.blockById(s.blockId)?.order : s.kind === 'goal' ? 'G' : s.kind === 'productive' ? '✓' : '·'
+  // Focus entries show the title they were logged under; CSS trims long ones with an ellipsis.
+  if (s) {
+    if (s.kind === 'focus') return store.slotTitle(s) || store.blockById(s.blockId)?.order
+    if (s.kind === 'goal') return withFirstLine('G', s)
+    if (s.kind === 'productive') return withFirstLine('P', s)
+    return '·'
+  }
   return p ? store.blockById(p.blockId)?.order : ''
 }
 function cellTitle(date, idx) {
   const s = store.slot(date, idx)
-  return s?.kind === 'focus' ? store.slotTitle(s) : ''
+  if (s?.kind === 'focus') return store.slotTitle(s)
+  return s && s.note && (s.kind === 'goal' || s.kind === 'productive') ? s.note : ''
 }
 function open(date, idx) {
   Object.assign(target, { slots: [{ date, idx }], mode: isFuture(date, idx) ? 'plan' : 'log' })
