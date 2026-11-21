@@ -173,16 +173,27 @@ function cellStyle(date, idx) {
   if (!s && p) return { color: store.blockById(p.blockId)?.color || '#6B7A8C' }
   return {}
 }
+/** "G - first line of the entry", or just the letter when there is no note. */
+function withFirstLine(letter, s) {
+  const first = (s.note || '').split('\n').map((l) => l.trim()).find(Boolean)
+  return first ? `${letter} - ${first}` : letter
+}
 function cellText(date, idx) {
   const s = store.slot(date, idx)
   const p = store.planned(date, idx)
   // Focus entries show the title they were logged under; CSS trims long ones with an ellipsis.
-  if (s) return s.kind === 'focus' ? store.slotTitle(s) || store.blockById(s.blockId)?.order : s.kind === 'goal' ? 'G' : s.kind === 'productive' ? '✓' : '·'
+  if (s) {
+    if (s.kind === 'focus') return store.slotTitle(s) || store.blockById(s.blockId)?.order
+    if (s.kind === 'goal') return withFirstLine('G', s)
+    if (s.kind === 'productive') return withFirstLine('P', s)
+    return '·'
+  }
   return p ? store.blockById(p.blockId)?.order : ''
 }
 function cellTitle(date, idx) {
   const s = store.slot(date, idx)
-  return s?.kind === 'focus' ? store.slotTitle(s) : ''
+  if (s?.kind === 'focus') return store.slotTitle(s)
+  return s && s.note && (s.kind === 'goal' || s.kind === 'productive') ? s.note : ''
 }
 function open(date, idx) {
   Object.assign(target, { slots: [{ date, idx }], mode: isFuture(date, idx) ? 'plan' : 'log' })
