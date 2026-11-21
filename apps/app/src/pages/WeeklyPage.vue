@@ -34,7 +34,7 @@
           @click="onCell($event, d.date, idx - 1)"
           @pointerdown="onDown($event, d.date, idx - 1)"
           @pointerenter="onEnter(d.date, idx - 1)"
-        >{{ cellText(d.date, idx - 1) }}</div>
+        ><span class="cell__text">{{ cellText(d.date, idx - 1) }}</span></div>
       </template>
     </div>
 
@@ -176,7 +176,8 @@ function cellStyle(date, idx) {
 function cellText(date, idx) {
   const s = store.slot(date, idx)
   const p = store.planned(date, idx)
-  if (s) return s.kind === 'focus' ? store.blockById(s.blockId)?.order : s.kind === 'goal' ? 'G' : s.kind === 'productive' ? '✓' : '·'
+  // Focus entries show the title they were logged under; CSS trims long ones with an ellipsis.
+  if (s) return s.kind === 'focus' ? store.slotTitle(s) || store.blockById(s.blockId)?.order : s.kind === 'goal' ? 'G' : s.kind === 'productive' ? '✓' : '·'
   return p ? store.blockById(p.blockId)?.order : ''
 }
 function cellTitle(date, idx) {

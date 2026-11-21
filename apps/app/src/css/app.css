@@ -17,6 +17,7 @@ body { background: var(--paper); color: var(--ink); font-family: system-ui, -app
 .week .time { font-size: 11px; color: var(--muted); text-align: right; padding: 4px 4px 0 0; border-right: 2px solid var(--ink); font-variant-numeric: tabular-nums; }
 .week .time.hour { color: var(--ink); font-weight: 600; border-top: 1px solid var(--rule-strong); }
 .week .cell { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; position: relative; user-select: none; }
+.week .cell__text { display: block; max-width: 100%; padding: 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .week .cell.hour { border-top: 1px solid var(--rule-strong); }
 .week .cell.future { background: repeating-linear-gradient(135deg, transparent 0 6px, rgba(27,36,51,0.03) 6px 7px); }
 .week .cell.now { outline: 2px solid var(--pen); outline-offset: -2px; z-index: 1; }
