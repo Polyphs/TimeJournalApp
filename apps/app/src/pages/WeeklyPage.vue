@@ -173,10 +173,22 @@ function cellStyle(date, idx) {
   if (!s && p) return { color: store.blockById(p.blockId)?.color || '#6B7A8C' }
   return {}
 }
-/** "G - first line of the entry", or just the letter when there is no note. */
+/** First line of an entry. Uses the saved HTML so line breaks the plain note lost still count. */
+function firstLineOf(s) {
+  let text = s.note || ''
+  if (s.html) {
+    const doc = new DOMParser().parseFromString(`<body>${s.html}</body>`, 'text/html')
+    doc.querySelectorAll('br').forEach((b) => b.replaceWith('\n'))
+    doc.querySelectorAll('p,div,li,h1,h2,h3,blockquote,pre').forEach((el) => { el.prepend('\n'); el.append('\n') })
+    text = doc.body.textContent || text
+  }
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean)
+  return { first: lines[0] || '', more: lines.length > 1 }
+}
+/** "G - first line of the entry" (with "..." if there is more), or just the letter when there is no note. */
 function withFirstLine(letter, s) {
-  const first = (s.note || '').split('\n').map((l) => l.trim()).find(Boolean)
-  return first ? `${letter} - ${first}` : letter
+  const { first, more } = firstLineOf(s)
+  return first ? `${letter} - ${first}${more ? '...' : ''}` : letter
 }
 function cellText(date, idx) {
   const s = store.slot(date, idx)
