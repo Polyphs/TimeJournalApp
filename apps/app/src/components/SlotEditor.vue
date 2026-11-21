@@ -34,7 +34,10 @@
     <div v-if="mode === 'plan' || kind === 'focus'" class="q-gutter-y-sm q-mb-md">
       <button v-for="b in store.blocks" :key="b.id" class="blockbtn" :class="{ on: blockId === b.id }" @click="blockId = b.id">
         <span class="num" :style="{ background: b.color }">{{ b.order }}</span>
-        <span>{{ b.name }}</span>
+        <span>
+          {{ recordedTitle(b) || b.name }}
+          <span v-if="recordedTitle(b) && recordedTitle(b) !== b.name" class="text-caption text-grey-7"> (now: {{ b.name }})</span>
+        </span>
       </button>
     </div>
 
@@ -105,6 +108,12 @@ const existingAll = slotList.value.map(lookup).filter(Boolean)
 const existing = existingAll[0] || null
 const plan = store.planned(slotList.value[0].date, slotList.value[0].idx)
 const hasExisting = computed(() => existingAll.length > 0)
+
+// Title the existing journal entry was logged under (survives later block renames).
+function recordedTitle(b) {
+  if (props.mode !== 'log' || !existing || existing.kind !== 'focus' || existing.blockId !== b.id) return ''
+  return store.slotTitle(existing)
+}
 
 const kind = ref(existing?.kind || (plan ? 'focus' : 'productive'))
 const blockId = ref(existing?.blockId || plan?.blockId || null)
